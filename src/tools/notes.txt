@@ -1,0 +1,1 @@
+this.game.loop.actualFps --> to get the fps (this = scene)
