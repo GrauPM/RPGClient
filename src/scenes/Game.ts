@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 
 import { Base } from '~/classes/base'
+import { Client } from '~/controls/Client'
 import { Cursor } from '~/controls/cursor'
 import { BattleSystem } from '~/controls/BattleSystem'
 
@@ -20,6 +21,7 @@ export default class Game extends Phaser.Scene
     cursor!: Cursor
     battleSystem
 
+    client
 	constructor() {
 		super('game')
 	}
@@ -27,7 +29,7 @@ export default class Game extends Phaser.Scene
 	preload = () => {
         // TODO: Implement the socket.io client
         // Creating the s.io client control
-        //const client = null
+        this.client = new Client()
 
         // Loading the images
         this.load.image('tiles', 'tiles/dungeon_tiles.png')
@@ -67,14 +69,18 @@ export default class Game extends Phaser.Scene
         
         // Initiating the player
         this.player.init()
-        
+        //console.log(this.player)
+
+        // Send the character to the server
+        this.client.createCharacter(this.player.name)
+
         // Put the player into the array
         this.playerArray.push(this.player)
 
         //Start a test combat
-        this.battleSystem = new BattleSystem(this)
-        this.battleSystem.addBattler(this.player)
-        this.battleSystem.init()
+        //this.battleSystem = new BattleSystem(this)
+        //this.battleSystem.addBattler(this.player)
+        //this.battleSystem.init()
         
     }
 
